@@ -3,12 +3,14 @@
 <header class="_header _content-wrapper" th:fragment="content">
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" th:href="@{/}">Joon</a>
+        <!--
+        <a class="navbar-brand" th:href="@{/}">Joon</a>
+        -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">
-        <img src="logo.png" style="width:40px;" class="rounded-pill">
+      <a class="navbar-brand" th:href="@{/}">
+        <img src="/logo/images/CommunityJoonLOGO.png" style="width:90px;" class="rounded-pill">
       </a>
       <div class="collapse navbar-collapse" id="mynavbar">
         <ul class="navbar-nav me-auto">
