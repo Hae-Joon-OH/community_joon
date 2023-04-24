@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.joon.mapper.IBoardMapper">
+
+    <select id="selectNotice" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit #{pageStart}, #{perPageNum}
+
+    </select>
+
+    <select id="totalCountOfNoticeBoard" resultType="int">
+        select count(*) from `community_joon`.`board` where board_value = 'notice'
+    </select>
+
+    <select id="selectNoticeDetail" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_num = #{boardNum}
+    </select>
+
+    <insert id="noticeInsert" parameterType="com.community.joon.entity.BoardEntity">
+        insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
+        values (#{boardWriter}, #{boardTitle}, #{boardContent}, #{boardValue})
+    </insert>
+
+    <select id="detailAfterInsert" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` order by board_num desc limit 1;
+    </select>
+
+    <delete id="noticeDelete" parameterType="com.community.joon.entity.BoardEntity">
+        delete from `community_joon`.`board` where board_num = #{boardNum}
+    </delete>
+
+    <update id="noticeUpdate" parameterType="com.community.joon.entity.BoardEntity">
+        update `community_joon`.`board`
+        set board_writer  = #{boardWriter},
+            board_value   = #{boardValue},
+            board_title   = #{boardTitle},
+            board_content = #{boardContent}
+        where board_num = #{boardNum}
+    </update>
+
+    <!-- 자유게시판 시작 -->
+    <select id="selectFree" parameterType="com.community.joon.entity.vo.Criteria"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_value = 'free' order by board_num desc limit #{pageStart}, #{perPageNum}
+    </select>
+
+    <select id="totalCountOfFreeBoard" resultType="int">
+        select count(*) from `community_joon`.`board` where board_value = 'free'
+    </select>
+
+
+    <insert id="freeInsert" parameterType="com.community.joon.entity.BoardEntity">
+        insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
+        values (#{boardWriter}, #{boardTitle}, #{boardContent}, #{boardValue})
+    </insert>
+
+    <select id="selectFreeDetail" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_num = #{boardNum}
+    </select>
+
+    <update id="freeUpdate" parameterType="com.community.joon.entity.BoardEntity">
+        update `community_joon`.`board`
+        set board_writer  = #{boardWriter},
+            board_value   = #{boardValue},
+            board_title   = #{boardTitle},
+            board_content = #{boardContent}
+        where board_num = #{boardNum}
+    </update>
+
+    <delete id="freeDelete" parameterType="com.community.joon.entity.BoardEntity">
+        delete from `community_joon`.`board` where board_num = #{boardNum}
+    </delete>
+
+    <!-- 조회수 시작 -->
+    <update id="boardCount" parameterType="com.community.joon.entity.BoardEntity">
+        update `community_joon`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
+    </update>
+
+    <!-- 좋아요 기능 시작 -->
+    <update id="likeCount" parameterType="com.community.joon.entity.BoardEntity">
+        update  `community_joon`.`board` inner join `community_joon`.`member`
+        set board_likesUser = concat(board_likesUser, ',', #{boardWriter}), board_likes = board_likes + 1
+        where board_writer != #{boardWriter} and member.member_nickname = #{boardWriter} and board_num = #{boardNum}
+    </update>
+
+    <update id="undoLikeCount" parameterType="com.community.joon.entity.BoardEntity">
+        update `community_joon`.`board` inner join  `community_joon`.`member`
+        set board_likesUser = replace(board_likesUser, #{boardWriter}, ''), board_likes = board_likes - 1
+        where member_nickname = #{boardWriter} and board_num = #{boardNum}
+    </update>
+
+    <select id="selectLikedUser" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select `board_likesUser` as `boardLikesUser`, `board_likes` as `boardLikes` from `community_joon`.`board` where `board_num` = #{boardNum}
+    </select>
+
+    <!-- main 영역 -->
+    <select id="mainFree" resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_value = 'free' order by board_num desc limit 10
+    </select>
+
+    <select id="mainNotice" resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit 10
+    </select>
+
+    <!-- 마이페이지 시작 -->
+    <select id="myBoard" parameterType="com.community.joon.entity.BoardEntity"
+            resultType="com.community.joon.entity.BoardEntity">
+        select board_num AS `boardNum`,
+               board_writer AS `boardWriter`,
+               board_title AS `boardTitle`,
+               board_content AS `boardContent`,
+               board_count AS `boardCount`,
+               board_createdAt AS `boardCreatedAt`,
+               board_likes AS `boardLikes`,
+               board_likesUser AS `boardLikesUser`,
+               board_value AS `boardValue`
+        from `community_joon`.`board` where board_writer = #{boardWriter} and board_value = 'free'
+    </select>
+
+    <select id="myComment" parameterType="com.community.joon.entity.CommentEntity"
+            resultType="com.community.joon.entity.CommentEntity">
+        select commentContent from `community_joon`.`comment` where commentWriter = #{commentWriter}
+    </select>
+
+    <!--==============================댓글 영역==============================-->
+
+    <select id="selectParentComments" parameterType="com.community.joon.entity.CommentEntity" resultType="com.community.joon.entity.CommentEntity">
+        select *
+        from community_joon.comment
+        where commentIndex = #{commentIndex}
+        order by commentIndex desc
+    </select>
+
+    <update id="replySequence" parameterType="com.community.joon.entity.CommentEntity">
+        update community_joon.comment
+        set commentSequence = commentSequence + 1
+        where commentGroup = #{commentGroup}
+          and commentSequence > #{commentSequence}
+    </update>
+
+    <insert id="commentInsert" parameterType="com.community.joon.entity.CommentEntity">
+        <selectKey keyProperty="commentIndex,commentGroup" resultType="com.community.joon.entity.CommentEntity" order="BEFORE">
+            select IFNULL(max(commentIndex)+1,1) as commentIndex,
+            IFNULL(max(commentGroup)+1,0) as commentGroup from community_joon.comment
+        </selectKey>
+        insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup,boardNum)
+        values (#{commentIndex},#{commentWriter},#{commentContent},#{commentGroup},#{boardNum})
+    </insert>
+
+
+    <insert id="replyInsert" parameterType="com.community.joon.entity.CommentEntity">
+        <selectKey keyProperty="commentIndex" resultType="com.community.joon.entity.CommentEntity" order="BEFORE">
+            select IFNULL(max(commentIndex)+1,1) as commentIndex from community_joon.comment
+        </selectKey>
+        insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup, commentSequence,
+        commentLevel,boardNum)
+        values (#{commentIndex},#{commentWriter},#{commentContent},#{commentGroup},#{commentSequence},#{commentLevel},#{boardNum})
+    </insert>
+
+
+    <select id="AllComment" parameterType="com.community.joon.entity.CommentEntity" resultType="com.community.joon.entity.CommentEntity">
+        select * from community_joon.comment where boardNum = #{boardNum} order by `commentGroup`
+    </select>
+
+<!--    <update id="updateComments" parameterType="com.community.joon.entity.CommentEntity">-->
+<!--        update community_joon.comment set commentAvailable = 'false' where boardNum = #{boardNum} and commentIndex = #{commentIndex}-->
+<!--    </update>-->
+<!--    Available을 사용할 때에는 AllComment mapper에 where commentAvailable = '1' 추가 그리고 위에 주석 된 update문을 해제하여 삭제대신 사용 (controller에서 삭제 수정) -->
+<!--    값이 1이면 보여지고, 0이면 안보인다. -->
+
+    <delete id="deleteComments" parameterType="com.community.joon.entity.CommentEntity">
+        delete from community_joon.comment where commentIndex =#{commentIndex}
+    </delete>
+
+</mapper>

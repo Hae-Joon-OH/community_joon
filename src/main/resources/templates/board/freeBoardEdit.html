@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Summernote with Bootstrap 5</title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        height : 500,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'italic', 'underline', 'clear']],
+          ['color', ['color']],
+          ['insert', ['link', 'picture', 'hr']],
+        ],
+        callbacks : {
+          onImageUpload : function(files, editor, welEditable) {
+            for (var i = files.length - 1; i >= 0; i--) {
+              uploadSummernoteImageFile(files[i],
+                      this);
+            }
+          }
+        }
+      });
+
+      // 파일 업로드를 ajax로 처리
+      function uploadSummernoteImageFile(file, el) {
+        data = new FormData();
+        data.append("file", file);
+        $.ajax({
+          data : data,
+          type : "POST",
+          url : "/board/images",
+          contentType : false,
+          enctype : 'multipart/form-data',
+          processData : false,
+          success : function(data) {
+            $(el).summernote('editor.insertImage', data.url);
+          }
+        });
+      }
+
+      const btn = document.getElementById("button");
+
+      btn.addEventListener('click', function () {
+
+        if(confirm("정말 수정을 완료하시겠습니까?")) {
+          const boardTitle = $("#boardTitle").val();
+          const boardContent =$("#summernote").val();
+          const boardValue = $("#boardValue").val();
+          const boardWriter = $("#boardWriter").val();
+          const boardNum = $("#boardNum").val();
+
+          var formData = new FormData();
+          formData.append("boardWriter", boardWriter)
+          formData.append("boardTitle", boardTitle)
+          formData.append("boardContent", boardContent)
+          formData.append("boardValue", boardValue)
+          formData.append("boardNum", boardNum)
+
+          if(boardTitle == ""){
+            alert("제목을 입력하세요!")
+            return false;
+          }
+          if(boardContent == ""){
+            alert("내용을 입력하세요!")
+            return false;
+          }
+
+          $.ajax({
+            url: "/board/editPost",
+            method: "post",
+            enctype: 'multipart/form-data',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (responseJSON) {
+              responseJSON = JSON.parse(responseJSON);
+              if(responseJSON['result'] == 'success') {
+                alert("글작성이 완료되었습니다.")
+                window.location.href = "/board/free"
+              } else {
+                alert("글작성을 실패했습니다.")
+              }
+            },
+            error: function () {
+              alert("알수 없는 이유로 글작성에 실패하였습니다.")
+            }
+          })
+        } else {
+          return false;
+        }
+      })
+    });
+  </script>
+</head>
+<body>
+<th:block th:replace="~{fragments/header.html :: content}"></th:block>
+<h1 class="display-3" align="center">자유게시판 글 수정</h1>
+<div class="container">
+  <form id="form" method="post">
+    <input type="hidden" name="boardWriter" id="boardWriter" th:value="${session.member.getMemberNickname()}">
+    <input type="hidden" name="boardValue" id="boardValue" value="free">
+    <table class="table table-hover">
+      <th:block th:each="list : ${eList}">
+        <tr>
+          <td style="width: 180px;">글제목</td>
+          <td><input type="text" name="boardTitle" id="boardTitle" class="form-control" placeholder="제목을 입력해 주세요." th:value="${list.getBoardTitle()}"></td>
+        </tr>
+        <tr>
+          <td style="width: 180px;">글내용</td>
+          <td><textarea id="summernote" name="editordata" class="form-control" rows="20" placeholder="내용을 입력해 주세요." th:utext="${list.getBoardContent()}">내용</textarea></td>
+        </tr>
+        <tr>
+          <td>
+            <input type="button" class="btn btn-sm btn-success" id="button" value="글수정">
+            <a th:href="@{/board/free}" class="btn btn-sm btn-info">이전으로</a>
+          </td>
+        </tr>
+        <form>
+          <input type="hidden" id="boardNum" th:value="${list.getBoardNum()}">
+        </form>
+      </th:block>
+    </table>
+  </form>
+</div>
+<th:block th:replace="~{fragments/footer.html :: content}"></th:block>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header class="_header _content-wrapper" th:fragment="content">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/}">Joon</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" style="width:40px;" class="rounded-pill">
+      </a>
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+<!--
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">about Joon</a>
+          </li>
+          -->
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/board/free}">자유게시판</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/board/notice}">공지 사항</a>
+          </li>
+          <!--
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">my project</a>
+          </li>
+          -->
+
+          <th:block th:if="${session.member == null}">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/member/login}">로그인</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/member/register}">회원가입</a>
+            </li>
+          </th:block>
+
+          <th:block th:if="${session.member != null}">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/member/logout}">로그아웃</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/member/myPage}">마이페이지</a>
+            </li>
+            <b class="nav-item" th:text="${session.member.getMemberNickname()}" style="color: white; margin-top: 8px">이름</b>
+            <p class="nav-item" style="color: white; margin-top: 8px">님 환영합니다!!</p>
+          </th:block>
+
+        </ul>
+        <!--
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search">
+          <button class="btn btn-secondary" type="button">Search</button>
+        </form>
+        -->
+      </div>
+    </div>
+  </nav>
+</header>
