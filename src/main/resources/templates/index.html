@@ -35,14 +35,14 @@
                <tr>
                    <td>제목</td>
                    <td>조회수</td>
-                   <td>좋아요</td>
+<!--                   <td>좋아요</td>-->
                    <td>작성일</td>
                </tr>
                <th:block th:each="list : ${mNotice}">
                    <tr>
                        <td><a th:href="@{/board/noticeDetail(boardNum=${list.getBoardNum()})}" th:text="${list.getBoardTitle()}">1</a></td>
                        <td th:text="${list.getBoardCount()}">2</td>
-                       <td th:text="${list.getBoardLikes()}">3</td>
+<!--                       <td th:text="${list.getBoardLikes()}">3</td>-->
                        <td th:text="${#dates.format(list.getBoardCreatedAt(), 'yyyy-MM-dd hh:mm:ss')}">4</td>
                    </tr>
                </th:block>

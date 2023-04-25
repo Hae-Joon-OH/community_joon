@@ -28,7 +28,7 @@
             <td class="pCenter">글번호</td>
             <td class="pCenter title">제목</td>
             <td class="pCenter">조회수</td>
-            <td class="pCenter">좋아요</td>
+<!--            <td class="pCenter">좋아요</td>-->
             <td class="pCenter dateColumn">작성일</td>
         </tr>
         <th:block th:each="list : ${nList}" >
@@ -36,7 +36,7 @@
                 <td class="pCenter" th:text="${list.getBoardNum()}">글번호</td>
                 <td class="pCenter title"><a th:text="${list.getBoardTitle()}" th:href="@{/board/noticeDetail(boardNum=${list.getBoardNum()})}">제목</a></td>
                 <td class="pCenter" th:text="${list.getBoardCount()}">조회수</td>
-                <td class="pCenter" th:text="${list.getBoardLikes()}">좋아요</td>
+<!--                <td class="pCenter" th:text="${list.getBoardLikes()}">좋아요</td>-->
                 <td class="pCenter dateColumn" th:text="${#dates.format(list.getBoardCreatedAt(), 'yyyy-MM-dd hh:mm:ss')}">작성일</td>
             </tr>
         </th:block>
@@ -44,7 +44,7 @@
             <td class="pCenter">&nbsp;</td>
             <td class="pCenter">&nbsp;</td>
             <td class="pCenter">&nbsp;</td>
-            <td class="pCenter">&nbsp;</td>
+<!--            <td class="pCenter">&nbsp;</td>-->
             <td class="pCenter">
                 <th:block th:if="${session.member != null}">
                     <a th:href="@{/board/noticeInsert}" class="btn btn-sm btn-primary" style="margin-right: 20px;">글쓰기</a>
