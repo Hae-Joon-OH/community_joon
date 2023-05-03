@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.community.joon.mapper.IMemberMapper">
     <insert id="register" parameterType="com.community.joon.entity.MemberEntity">
-        insert into `community_joon`.`member`
+#         insert into `community_joon`.`member`
+        insert into `chipp0604`.`member`
         (member_email, member_password, member_joinDate, member_name, member_nickname)
         values (#{memberEmail}, #{memberPassword}, default, #{memberName}, #{memberNickname})
     </insert>
@@ -15,7 +16,8 @@
                `member_joinDate` AS 'memberJoinDate',
                `member_name` AS 'memberName',
                `member_nickname` AS 'memberNickname'
-        from `community_joon`.`member` where member_nickname = #{memberNickname}
+        from `chipp0604`.`member` where member_nickname = #{memberNickname}
+#             from `community_joon`.`member` where member_nickname = #{memberNickname}
     </select>
 
     <select id="emailDuplication" parameterType="com.community.joon.entity.MemberEntity"
@@ -26,7 +28,8 @@
                `member_joinDate` AS 'memberJoinDate',
                `member_name` AS 'memberName',
                `member_nickname` AS 'memberNickname'
-        from `community_joon`.`member` where member_email = #{memberEmail}
+        from `chipp0604`.`member` where member_email = #{memberEmail}
+#             from `community_joon`.`member` where member_email = #{memberEmail}
     </select>
 
     <select id="login" parameterType="com.community.joon.entity.MemberEntity"
@@ -37,17 +40,20 @@
                `member_joinDate` AS 'memberJoinDate',
                `member_name` AS 'memberName',
                `member_nickname` AS 'memberNickname'
-        from `community_joon`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
+        from `chipp0604`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
+#             from `community_joon`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
     </select>
 
     <!-- 마이페이지 시작 -->
     <!-- 회원 탈퇴 -->
     <delete id="deleteUser" parameterType="com.community.joon.entity.MemberEntity">
-        delete from `community_joon`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
+        delete from `chipp0604`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
+#         delete from `community_joon`.`member` where member_email = #{memberEmail} and member_password = #{memberPassword}
     </delete>
 
     <!-- 회원 정보 수정 -->
     <update id="userModify" parameterType="com.community.joon.entity.MemberEntity">
-       update `community_joon`.`member` set member_name = #{memberName}, member_password = #{memberPassword} where member_num = #{memberNum}
+        update `chipp0604`.`member` set member_name = #{memberName}, member_password = #{memberPassword} where member_num = #{memberNum}
+#         update `community_joon`.`member` set member_name = #{memberName}, member_password = #{memberPassword} where member_num = #{memberNum}
     </update>
 </mapper>
