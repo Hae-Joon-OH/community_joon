@@ -134,7 +134,8 @@
 
     <!-- 조회수 시작 -->
     <update id="boardCount" parameterType="com.community.joon.entity.BoardEntity">
-        update `community_joon`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
+        update `chipp0604`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
+#         update `community_joon`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
     </update>
 
     <!-- 좋아요 기능 시작 -->
