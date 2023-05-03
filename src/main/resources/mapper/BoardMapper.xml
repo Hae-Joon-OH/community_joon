@@ -13,14 +13,14 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_value = 'notice' order by board_num desc limit #{pageStart}, #{perPageNum}
-        from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit #{pageStart}, #{perPageNum}
+        from `chipp0604`.`board` where board_value = 'notice' order by board_num desc limit #{pageStart}, #{perPageNum}
+#         from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit #{pageStart}, #{perPageNum}
 
     </select>
 
     <select id="totalCountOfNoticeBoard" resultType="int">
-#         select count(*) from `chipp0604`.`board` where board_value = 'notice'
-        select count(*) from `community_joon`.`board` where board_value = 'notice'
+        select count(*) from `chipp0604`.`board` where board_value = 'notice'
+#         select count(*) from `community_joon`.`board` where board_value = 'notice'
     </select>
 
     <select id="selectNoticeDetail" parameterType="com.community.joon.entity.BoardEntity"
@@ -34,13 +34,13 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_num = #{boardNum}
-      from `community_joon`.`board` where board_num = #{boardNum}
+        from `chipp0604`.`board` where board_num = #{boardNum}
+#       from `community_joon`.`board` where board_num = #{boardNum}
     </select>
 
     <insert id="noticeInsert" parameterType="com.community.joon.entity.BoardEntity">
-        insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
-#         insert into `chipp0604`.`board` (board_writer, board_title, board_content, board_value)
+#         insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
+        insert into `chipp0604`.`board` (board_writer, board_title, board_content, board_value)
         values (#{boardWriter}, #{boardTitle}, #{boardContent}, #{boardValue})
     </insert>
 
@@ -55,18 +55,18 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` order by board_num desc limit 1;
-        from `community_joon`.`board` order by board_num desc limit 1;
+        from `chipp0604`.`board` order by board_num desc limit 1;
+#         from `community_joon`.`board` order by board_num desc limit 1;
     </select>
 
     <delete id="noticeDelete" parameterType="com.community.joon.entity.BoardEntity">
-#         delete from `chipp0604`.`board` where board_num = #{boardNum}
-        delete from `community_joon`.`board` where board_num = #{boardNum}
+        delete from `chipp0604`.`board` where board_num = #{boardNum}
+#         delete from `community_joon`.`board` where board_num = #{boardNum}
     </delete>
 
     <update id="noticeUpdate" parameterType="com.community.joon.entity.BoardEntity">
-        update `community_joon`.`board`
-#         update `chipp0604`.`board`
+#         update `community_joon`.`board`
+        update `chipp0604`.`board`
         set board_writer  = #{boardWriter},
             board_value   = #{boardValue},
             board_title   = #{boardTitle},
@@ -86,19 +86,19 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_value = 'free' order by board_num desc limit #{pageStart}, #{perPageNum}
-        from `community_joon`.`board` where board_value = 'free' order by board_num desc limit #{pageStart}, #{perPageNum}
+        from `chipp0604`.`board` where board_value = 'free' order by board_num desc limit #{pageStart}, #{perPageNum}
+#         from `community_joon`.`board` where board_value = 'free' order by board_num desc limit #{pageStart}, #{perPageNum}
     </select>
 
     <select id="totalCountOfFreeBoard" resultType="int">
-#         select count(*) from `chipp0604`.`board` where board_value = 'free'
-        select count(*) from `community_joon`.`board` where board_value = 'free'
+        select count(*) from `chipp0604`.`board` where board_value = 'free'
+#         select count(*) from `community_joon`.`board` where board_value = 'free'
     </select>
 
 
     <insert id="freeInsert" parameterType="com.community.joon.entity.BoardEntity">
-        insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
-#         insert into `chipp0604`.`board` (board_writer, board_title, board_content, board_value)
+#         insert into `community_joon`.`board` (board_writer, board_title, board_content, board_value)
+        insert into `chipp0604`.`board` (board_writer, board_title, board_content, board_value)
         values (#{boardWriter}, #{boardTitle}, #{boardContent}, #{boardValue})
     </insert>
 
@@ -113,13 +113,13 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_num = #{boardNum}
-      from `community_joon`.`board` where board_num = #{boardNum}
+        from `chipp0604`.`board` where board_num = #{boardNum}
+#       from `community_joon`.`board` where board_num = #{boardNum}
     </select>
 
     <update id="freeUpdate" parameterType="com.community.joon.entity.BoardEntity">
-        update `community_joon`.`board`
-#         update `chipp0604`.`board`
+#         update `community_joon`.`board`
+        update `chipp0604`.`board`
         set board_writer  = #{boardWriter},
             board_value   = #{boardValue},
             board_title   = #{boardTitle},
@@ -128,35 +128,35 @@
     </update>
 
     <delete id="freeDelete" parameterType="com.community.joon.entity.BoardEntity">
-#         delete from `chipp0604`.`board` where board_num = #{boardNum}
-        delete from `community_joon`.`board` where board_num = #{boardNum}
+        delete from `chipp0604`.`board` where board_num = #{boardNum}
+#         delete from `community_joon`.`board` where board_num = #{boardNum}
     </delete>
 
     <!-- 조회수 시작 -->
     <update id="boardCount" parameterType="com.community.joon.entity.BoardEntity">
-#         update `chipp0604`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
-        update `community_joon`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
+        update `chipp0604`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
+#         update `community_joon`.`board` set board_count = board_count + 1 where board_num = #{boardNum}
     </update>
 
     <!-- 좋아요 기능 시작 -->
     <update id="likeCount" parameterType="com.community.joon.entity.BoardEntity">
-        update  `community_joon`.`board` inner join `community_joon`.`member`
-#         update  `chipp0604`.`board` inner join `community_joon`.`member`
+#         update  `community_joon`.`board` inner join `community_joon`.`member`
+        update  `chipp0604`.`board` inner join `community_joon`.`member`
         set board_likesUser = concat(board_likesUser, ',', #{boardWriter}), board_likes = board_likes + 1
         where board_writer != #{boardWriter} and member.member_nickname = #{boardWriter} and board_num = #{boardNum}
     </update>
 
     <update id="undoLikeCount" parameterType="com.community.joon.entity.BoardEntity">
-        update `community_joon`.`board` inner join  `community_joon`.`member`
-#         update `chipp0604`.`board` inner join  `community_joon`.`member`
+#         update `community_joon`.`board` inner join  `community_joon`.`member`
+        update `chipp0604`.`board` inner join  `community_joon`.`member`
         set board_likesUser = replace(board_likesUser, #{boardWriter}, ''), board_likes = board_likes - 1
         where member_nickname = #{boardWriter} and board_num = #{boardNum}
     </update>
 
     <select id="selectLikedUser" parameterType="com.community.joon.entity.BoardEntity"
             resultType="com.community.joon.entity.BoardEntity">
-#         select `board_likesUser` as `boardLikesUser`, `board_likes` as `boardLikes` from `chipp0604`.`board` where `board_num` = #{boardNum}
-        select `board_likesUser` as `boardLikesUser`, `board_likes` as `boardLikes` from `community_joon`.`board` where `board_num` = #{boardNum}
+        select `board_likesUser` as `boardLikesUser`, `board_likes` as `boardLikes` from `chipp0604`.`board` where `board_num` = #{boardNum}
+#         select `board_likesUser` as `boardLikesUser`, `board_likes` as `boardLikes` from `community_joon`.`board` where `board_num` = #{boardNum}
     </select>
 
     <!-- main 영역 -->
@@ -170,8 +170,8 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_value = 'free' order by board_num desc limit 10
-        from `community_joon`.`board` where board_value = 'free' order by board_num desc limit 10
+        from `chipp0604`.`board` where board_value = 'free' order by board_num desc limit 10
+#         from `community_joon`.`board` where board_value = 'free' order by board_num desc limit 10
     </select>
 
     <select id="mainNotice" resultType="com.community.joon.entity.BoardEntity">
@@ -184,8 +184,8 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_value = 'notice' order by board_num desc limit 10
-        from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit 10
+        from `chipp0604`.`board` where board_value = 'notice' order by board_num desc limit 10
+#         from `community_joon`.`board` where board_value = 'notice' order by board_num desc limit 10
     </select>
 
     <!-- 마이페이지 시작 -->
@@ -200,29 +200,29 @@
                board_likes AS `boardLikes`,
                board_likesUser AS `boardLikesUser`,
                board_value AS `boardValue`
-#         from `chipp0604`.`board` where board_writer = #{boardWriter} and board_value = 'free'
-      from `community_joon`.`board` where board_writer = #{boardWriter} and board_value = 'free'
+        from `chipp0604`.`board` where board_writer = #{boardWriter} and board_value = 'free'
+#       from `community_joon`.`board` where board_writer = #{boardWriter} and board_value = 'free'
     </select>
 
     <select id="myComment" parameterType="com.community.joon.entity.CommentEntity"
             resultType="com.community.joon.entity.CommentEntity">
-#         select commentContent from `chipp0604`.`comment` where commentWriter = #{commentWriter}
-        select commentContent from `community_joon`.`comment` where commentWriter = #{commentWriter}
+        select commentContent from `chipp0604`.`comment` where commentWriter = #{commentWriter}
+#         select commentContent from `community_joon`.`comment` where commentWriter = #{commentWriter}
     </select>
 
     <!--==============================댓글 영역==============================-->
 
     <select id="selectParentComments" parameterType="com.community.joon.entity.CommentEntity" resultType="com.community.joon.entity.CommentEntity">
         select *
-        from community_joon.comment
-#         from `chipp0604`.`comment`
+#         from community_joon.comment
+        from `chipp0604`.`comment`
         where commentIndex = #{commentIndex}
         order by commentIndex desc
     </select>
 
     <update id="replySequence" parameterType="com.community.joon.entity.CommentEntity">
-        update community_joon.comment
-#         update `chipp0604`.`comment`
+#         update community_joon.comment
+        update `chipp0604`.`comment`
         set commentSequence = commentSequence + 1
         where commentGroup = #{commentGroup}
           and commentSequence > #{commentSequence}
@@ -231,30 +231,30 @@
     <insert id="commentInsert" parameterType="com.community.joon.entity.CommentEntity">
         <selectKey keyProperty="commentIndex,commentGroup" resultType="com.community.joon.entity.CommentEntity" order="BEFORE">
             select IFNULL(max(commentIndex)+1,1) as commentIndex,
-#             IFNULL(max(commentGroup)+1,0) as commentGroup from `chipp0604`.`comment`
-            IFNULL(max(commentGroup)+1,0) as commentGroup from community_joon.comment
+            IFNULL(max(commentGroup)+1,0) as commentGroup from `chipp0604`.`comment`
+#             IFNULL(max(commentGroup)+1,0) as commentGroup from community_joon.comment
         </selectKey>
-        insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup,boardNum)
-#         insert into `chipp0604`.`comment`(commentIndex,commentWriter, commentContent, commentGroup,boardNum)
+#         insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup,boardNum)
+        insert into `chipp0604`.`comment`(commentIndex,commentWriter, commentContent, commentGroup,boardNum)
         values (#{commentIndex},#{commentWriter},#{commentContent},#{commentGroup},#{boardNum})
     </insert>
 
 
     <insert id="replyInsert" parameterType="com.community.joon.entity.CommentEntity">
         <selectKey keyProperty="commentIndex" resultType="com.community.joon.entity.CommentEntity" order="BEFORE">
-            select IFNULL(max(commentIndex)+1,1) as commentIndex from community_joon.comment
-#             select IFNULL(max(commentIndex)+1,1) as commentIndex from `chipp0604`.`comment`
+#             select IFNULL(max(commentIndex)+1,1) as commentIndex from community_joon.comment
+            select IFNULL(max(commentIndex)+1,1) as commentIndex from `chipp0604`.`comment`
         </selectKey>
-        insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup, commentSequence,
-#         insert into `chipp0604`.`comment`(commentIndex,commentWriter, commentContent, commentGroup, commentSequence,
+#         insert into community_joon.comment(commentIndex,commentWriter, commentContent, commentGroup, commentSequence,
+        insert into `chipp0604`.`comment`(commentIndex,commentWriter, commentContent, commentGroup, commentSequence,
         commentLevel,boardNum)
         values (#{commentIndex},#{commentWriter},#{commentContent},#{commentGroup},#{commentSequence},#{commentLevel},#{boardNum})
     </insert>
 
 
     <select id="AllComment" parameterType="com.community.joon.entity.CommentEntity" resultType="com.community.joon.entity.CommentEntity">
-        select * from community_joon.comment where boardNum = #{boardNum} order by `commentGroup`
-#         select * from `chipp0604`.`comment` where boardNum = #{boardNum} order by `commentGroup`
+#         select * from community_joon.comment where boardNum = #{boardNum} order by `commentGroup`
+        select * from `chipp0604`.`comment` where boardNum = #{boardNum} order by `commentGroup`
     </select>
 
 <!--    <update id="updateComments" parameterType="com.community.joon.entity.CommentEntity">-->
@@ -264,8 +264,8 @@
 <!--    값이 1이면 보여지고, 0이면 안보인다. -->
 
     <delete id="deleteComments" parameterType="com.community.joon.entity.CommentEntity">
-        delete from community_joon.comment where commentIndex =#{commentIndex}
-#         delete from `chipp0604`.`comment` where commentIndex =#{commentIndex}
+#         delete from community_joon.comment where commentIndex =#{commentIndex}
+        delete from `chipp0604`.`comment` where commentIndex =#{commentIndex}
     </delete>
 
 </mapper>
