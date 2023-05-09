@@ -141,14 +141,14 @@
     <!-- 좋아요 기능 시작 -->
     <update id="likeCount" parameterType="com.community.joon.entity.BoardEntity">
 #         update  `community_joon`.`board` inner join `community_joon`.`member`
-        update  `chipp0604`.`board` inner join `community_joon`.`member`
+        update  `chipp0604`.`board` inner join `chipp0604`.`member`
         set board_likesUser = concat(board_likesUser, ',', #{boardWriter}), board_likes = board_likes + 1
         where board_writer != #{boardWriter} and member.member_nickname = #{boardWriter} and board_num = #{boardNum}
     </update>
 
     <update id="undoLikeCount" parameterType="com.community.joon.entity.BoardEntity">
 #         update `community_joon`.`board` inner join  `community_joon`.`member`
-        update `chipp0604`.`board` inner join  `community_joon`.`member`
+        update `chipp0604`.`board` inner join  `chipp0604`.`member`
         set board_likesUser = replace(board_likesUser, #{boardWriter}, ''), board_likes = board_likes - 1
         where member_nickname = #{boardWriter} and board_num = #{boardNum}
     </update>
